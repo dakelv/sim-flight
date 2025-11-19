@@ -19,6 +19,9 @@ export default function App() {
   const [feedback, setFeedback] = useState<string>("");
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  // Safe access to API key boolean check
+  const hasApiKey = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_KEY;
+
   // Auto-scroll dialogue
   useEffect(() => {
     if (scrollRef.current) {
@@ -125,15 +128,15 @@ export default function App() {
           <h1 className="text-5xl font-black text-slate-100 mb-2 tracking-tighter">GO / NO-GO</h1>
           <h2 className="text-2xl text-red-500 font-mono mb-8 tracking-widest">THE PRESSURE COOKER</h2>
           <p className="text-slate-400 mb-8 text-base leading-relaxed font-mono text-left border-l-2 border-slate-700 pl-4">
-            > ROLE: PILOT IN COMMAND (KING AIR 350)<br/>
-            > LOCATION: CYQT (THUNDER BAY)<br/>
-            > CONDITION: FREEZING DRIZZLE / LATE DEPARTURE<br/>
-            > STATUS: VIP ON BOARD / MASTER WARNING FLICKER<br/>
+            &gt; ROLE: PILOT IN COMMAND (KING AIR 350)<br/>
+            &gt; LOCATION: CYQT (THUNDER BAY)<br/>
+            &gt; CONDITION: FREEZING DRIZZLE / LATE DEPARTURE<br/>
+            &gt; STATUS: VIP ON BOARD / MASTER WARNING FLICKER<br/>
           </p>
           
-          {!process.env.API_KEY ? (
+          {!hasApiKey ? (
              <div className="p-4 border border-red-500 bg-red-900/20 text-red-400 text-xs mb-4 font-mono">
-               [SYSTEM ERROR]: API_KEY MISSING
+               [SYSTEM ERROR]: VITE_API_KEY MISSING IN .ENV
              </div>
           ) : (
             <Button onClick={handleStart} variant="primary" className="w-full py-6 text-xl tracking-widest">ENTER COCKPIT</Button>

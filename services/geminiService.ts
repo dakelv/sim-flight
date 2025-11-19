@@ -2,7 +2,14 @@ import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { SimulationState, GameStatus, Speaker } from "../types";
 
 // Initialize Gemini Client
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Safe access to avoid "property of undefined" error
+const apiKey = (typeof import.meta !== 'undefined' && import.meta.env) ? import.meta.env.VITE_API_KEY : "";
+
+if (!apiKey) {
+  console.error("API KEY MISSING: Check your .env file and ensure it starts with VITE_");
+}
+
+const ai = new GoogleGenAI({ apiKey: apiKey || "" });
 
 // System Prompt defining the persona and rules
 const SYSTEM_INSTRUCTION = `
