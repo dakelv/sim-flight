@@ -19,8 +19,8 @@ export default function App() {
   const [feedback, setFeedback] = useState<string>("");
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Safe access to API key boolean check
-  const hasApiKey = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_KEY;
+  // DIRECT ACCESS: Trust the build replacement
+  const hasApiKey = !!import.meta.env.VITE_API_KEY;
 
   // Auto-scroll dialogue
   useEffect(() => {
@@ -53,7 +53,9 @@ export default function App() {
       text: action,
       timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
     };
-    setDialogue(prev => [...prev, userLine]);
+    
+    // Fix: Explicitly type 'prev' to avoid implicit any error
+    setDialogue((prev: DialogueLine[]) => [...prev, userLine]);
 
     try {
       const state = await processAction(action, dialogue);
@@ -70,7 +72,8 @@ export default function App() {
   };
 
   const updateState = (state: SimulationState) => {
-    setDialogue(prev => [...prev, ...state.dialogue]);
+    // Fix: Explicitly type 'prev' to avoid implicit any error
+    setDialogue((prev: DialogueLine[]) => [...prev, ...state.dialogue]);
     setGameState(state.status);
     if (state.feedback) setFeedback(state.feedback);
   };
