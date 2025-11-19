@@ -1,0 +1,5 @@
+{
+  "name": "Go/No-Go: The Pressure Cooker",
+  "description": "An advanced aviation training simulator powered by Gemini. You are the Pilot in Command facing a critical Go/No-Go decision under pressure from an angry VIP, a tired Co-Pilot, and marginal weather.",
+  "requestFramePermissions": []
+}
